@@ -1,0 +1,41 @@
+<script>
+  var expirationTime = 31560000; // 12 months in seconds
+  expirationTime = expirationTime * 1000; // Converts expirationtime to milliseconds
+  var date = new Date();
+  var dateTimeNow = date.getTime();
+  date.setTime(dateTimeNow + expirationTime); // Sets expiration time (Time now + one month)
+  var expirationTime = date.toUTCString(); // Converts milliseconds to UTC time string
+  var expirationCookie = "; expires=" + expirationTime;
+function getCookie(username) {
+  var name = username + "=";
+  var spli = document.cookie.split(';');
+  for(var j = 0; j < spli.length; j++) {
+    var char = spli[j];
+    while (char.charAt(0) == ' ') {
+      char = char.substring(1);
+    }
+    if (char.indexOf(name) == 0) {
+      return char.substring(name.length, char.length);
+    }
+  }
+  return "";
+};
+function checkAndCreateCookie() {
+  var cookie_value = getCookie('viewCounter');
+  // checking whether cookie is null or not
+  if (cookie_value == '') {
+    //if its null then create a cookie
+ document.cookie = "viewCounter=1"; "path=/; domain=." + location.hostname.replace(/^www\./i, "") + expirationCookie
+  }
+  else {
+  var toInt = parseInt(cookie_value) + 1
+    setTimeout(function(){
+        document.cookie = "secondLoad=" + toInt + ";"
+        + "path=/; domain=."
+        + location.hostname.replace(/^www\./i, "")
+        + expirationCookie;
+        500});
+  }
+  }
+checkAndCreateCookie();
+</script>
